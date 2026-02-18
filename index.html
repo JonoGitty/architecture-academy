@@ -1,0 +1,1218 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Jono's Architecture Academy</title>
+<style>
+  :root {
+    --bg: #0f0f1a;
+    --surface: #1a1a2e;
+    --surface2: #22223a;
+    --border: #2a2a4a;
+    --accent: #7c5cff;
+    --accent2: #ff6b9d;
+    --accent3: #00d4aa;
+    --accent4: #ffa726;
+    --text: #e8e8f0;
+    --text-dim: #8888aa;
+    --danger: #ff4757;
+    --success: #2ed573;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    line-height: 1.6;
+    overflow-x: hidden;
+  }
+
+  /* ─── NAV ─── */
+  nav {
+    position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+    background: rgba(15,15,26,.92);
+    backdrop-filter: blur(12px);
+    border-bottom: 1px solid var(--border);
+    padding: 0 2rem;
+    display: flex; align-items: center; gap: 1rem;
+    height: 56px;
+  }
+  nav .logo { font-weight: 800; font-size: 1.1rem; color: var(--accent); white-space: nowrap; }
+  nav .nav-links { display: flex; gap: .25rem; overflow-x: auto; flex: 1; }
+  nav .nav-links button {
+    background: none; border: none; color: var(--text-dim); font-size: .85rem;
+    padding: .5rem .75rem; cursor: pointer; border-radius: 6px; white-space: nowrap;
+    transition: all .2s;
+  }
+  nav .nav-links button:hover { background: var(--surface); color: var(--text); }
+  nav .nav-links button.active { background: var(--accent); color: #fff; }
+
+  /* ─── MAIN ─── */
+  main { margin-top: 56px; padding: 2rem; max-width: 1100px; margin-left: auto; margin-right: auto; }
+
+  .section { display: none; animation: fadeIn .4s ease; }
+  .section.active { display: block; }
+  @keyframes fadeIn { from { opacity: 0; transform: translateY(12px); } to { opacity: 1; transform: translateY(0); } }
+
+  h1 { font-size: 2.2rem; margin-bottom: .5rem; }
+  h2 { font-size: 1.5rem; margin: 2rem 0 1rem; color: var(--accent); }
+  h3 { font-size: 1.15rem; margin: 1.5rem 0 .75rem; color: var(--accent2); }
+  p { margin-bottom: 1rem; color: var(--text-dim); }
+  p strong, li strong { color: var(--text); }
+
+  /* ─── HERO ─── */
+  .hero {
+    text-align: center; padding: 4rem 0 2rem;
+  }
+  .hero h1 { font-size: 2.8rem; background: linear-gradient(135deg, var(--accent), var(--accent2)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+  .hero .subtitle { font-size: 1.2rem; color: var(--text-dim); margin-top: .5rem; }
+
+  /* ─── CARDS ─── */
+  .card-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 1.25rem; margin: 1.5rem 0; }
+  .card {
+    background: var(--surface); border: 1px solid var(--border); border-radius: 12px;
+    padding: 1.5rem; cursor: pointer; transition: all .25s;
+    position: relative; overflow: hidden;
+  }
+  .card:hover { border-color: var(--accent); transform: translateY(-2px); box-shadow: 0 8px 32px rgba(124,92,255,.15); }
+  .card .tag {
+    display: inline-block; font-size: .7rem; font-weight: 700; text-transform: uppercase;
+    padding: .2rem .6rem; border-radius: 20px; margin-bottom: .75rem;
+  }
+  .tag-ts { background: #2563eb22; color: #60a5fa; }
+  .tag-py { background: #f59e0b22; color: #fbbf24; }
+  .tag-js { background: #eab30822; color: #fcd34d; }
+  .card h3 { margin: 0 0 .5rem; color: var(--text); font-size: 1.1rem; }
+  .card p { font-size: .9rem; margin: 0; }
+
+  /* ─── CONCEPT BOX ─── */
+  .concept {
+    background: var(--surface); border-left: 4px solid var(--accent);
+    border-radius: 0 10px 10px 0; padding: 1.25rem 1.5rem; margin: 1.25rem 0;
+  }
+  .concept.warn { border-left-color: var(--accent4); }
+  .concept.danger { border-left-color: var(--danger); }
+  .concept.success { border-left-color: var(--success); }
+  .concept .label { font-size: .7rem; font-weight: 700; text-transform: uppercase; letter-spacing: .08em; margin-bottom: .4rem; color: var(--accent); }
+  .concept.warn .label { color: var(--accent4); }
+  .concept.danger .label { color: var(--danger); }
+  .concept.success .label { color: var(--success); }
+
+  /* ─── DIAGRAM ─── */
+  .diagram {
+    background: var(--surface2); border: 1px solid var(--border); border-radius: 10px;
+    padding: 1.5rem; margin: 1.5rem 0; font-family: 'Cascadia Code', 'Fira Code', monospace;
+    font-size: .82rem; line-height: 1.7; overflow-x: auto; white-space: pre;
+    color: var(--text-dim);
+  }
+  .diagram .hl { color: var(--accent); font-weight: 700; }
+  .diagram .hl2 { color: var(--accent2); font-weight: 700; }
+  .diagram .hl3 { color: var(--accent3); font-weight: 700; }
+  .diagram .hl4 { color: var(--accent4); font-weight: 700; }
+
+  /* ─── ACCORDION ─── */
+  .accordion { margin: 1rem 0; }
+  .acc-item { border: 1px solid var(--border); border-radius: 8px; margin-bottom: .5rem; overflow: hidden; }
+  .acc-header {
+    padding: 1rem 1.25rem; cursor: pointer; display: flex; justify-content: space-between; align-items: center;
+    background: var(--surface); font-weight: 600; transition: background .2s;
+  }
+  .acc-header:hover { background: var(--surface2); }
+  .acc-header::after { content: '+'; font-size: 1.2rem; color: var(--accent); transition: transform .3s; }
+  .acc-item.open .acc-header::after { content: '−'; }
+  .acc-body { max-height: 0; overflow: hidden; transition: max-height .35s ease; }
+  .acc-item.open .acc-body { max-height: 2000px; }
+  .acc-body-inner { padding: 1rem 1.25rem; }
+
+  /* ─── QUIZ ─── */
+  .quiz { background: var(--surface); border: 1px solid var(--border); border-radius: 12px; padding: 1.5rem; margin: 1.5rem 0; }
+  .quiz h3 { color: var(--accent3); margin: 0 0 1rem; }
+  .quiz-option {
+    display: block; width: 100%; text-align: left; padding: .75rem 1rem; margin: .4rem 0;
+    background: var(--surface2); border: 1px solid var(--border); border-radius: 8px;
+    color: var(--text); cursor: pointer; font-size: .95rem; transition: all .2s;
+  }
+  .quiz-option:hover { border-color: var(--accent); }
+  .quiz-option.correct { background: #2ed57322; border-color: var(--success); color: var(--success); }
+  .quiz-option.wrong { background: #ff475722; border-color: var(--danger); color: var(--danger); }
+  .quiz-explanation { margin-top: 1rem; padding: 1rem; background: var(--surface2); border-radius: 8px; display: none; }
+  .quiz-explanation.show { display: block; }
+
+  /* ─── FLOW ─── */
+  .flow { display: flex; flex-wrap: wrap; gap: .75rem; align-items: center; margin: 1.5rem 0; }
+  .flow-step {
+    background: var(--surface); border: 1px solid var(--border); border-radius: 8px;
+    padding: .6rem 1rem; font-size: .85rem; font-weight: 600; position: relative;
+  }
+  .flow-arrow { color: var(--accent); font-size: 1.2rem; font-weight: 700; }
+
+  /* ─── COMPARISON TABLE ─── */
+  table { width: 100%; border-collapse: collapse; margin: 1.5rem 0; font-size: .9rem; }
+  th { text-align: left; padding: .75rem 1rem; background: var(--surface); border: 1px solid var(--border); color: var(--accent); font-weight: 700; }
+  td { padding: .75rem 1rem; border: 1px solid var(--border); color: var(--text-dim); }
+  tr:hover td { background: var(--surface); }
+
+  /* ─── PROGRESS ─── */
+  .progress-bar { background: var(--surface); border-radius: 20px; height: 8px; margin: 1rem 0; overflow: hidden; }
+  .progress-fill { height: 100%; border-radius: 20px; background: linear-gradient(90deg, var(--accent), var(--accent2)); transition: width .5s ease; }
+
+  /* ─── LAYER STACK ─── */
+  .layer-stack { margin: 1.5rem 0; }
+  .layer {
+    padding: 1rem 1.25rem; border-left: 3px solid; margin-bottom: 2px;
+    background: var(--surface); display: flex; justify-content: space-between; align-items: center;
+    cursor: pointer; transition: all .2s;
+  }
+  .layer:hover { padding-left: 1.5rem; }
+  .layer:first-child { border-radius: 10px 10px 0 0; }
+  .layer:last-child { border-radius: 0 0 10px 10px; }
+  .layer .layer-name { font-weight: 700; }
+  .layer .layer-tech { font-size: .8rem; color: var(--text-dim); }
+  .l1 { border-left-color: var(--accent); }
+  .l2 { border-left-color: var(--accent2); }
+  .l3 { border-left-color: var(--accent3); }
+  .l4 { border-left-color: var(--accent4); }
+
+  /* ─── CHECKLIST ─── */
+  .checklist { list-style: none; padding: 0; }
+  .checklist li { padding: .5rem 0; display: flex; align-items: flex-start; gap: .75rem; }
+  .checklist li::before { content: '○'; color: var(--accent); font-weight: 700; flex-shrink: 0; }
+  .checklist li.checked::before { content: '●'; color: var(--success); }
+
+  /* ─── SECURITY METER ─── */
+  .sec-meter { display: flex; gap: .5rem; margin: 1rem 0; }
+  .sec-block { width: 100%; height: 28px; border-radius: 4px; display: flex; align-items: center; justify-content: center; font-size: .7rem; font-weight: 700; }
+  .sec-high { background: var(--success); color: #000; }
+  .sec-mid { background: var(--accent4); color: #000; }
+  .sec-low { background: var(--danger); color: #fff; }
+
+  /* ─── RESPONSIVE ─── */
+  @media (max-width: 768px) {
+    nav { padding: 0 .75rem; }
+    nav .nav-links button { font-size: .75rem; padding: .4rem .5rem; }
+    main { padding: 1rem; }
+    .hero h1 { font-size: 1.8rem; }
+    .card-grid { grid-template-columns: 1fr; }
+    .diagram { font-size: .7rem; }
+  }
+
+  /* ─── TOOLTIP ─── */
+  .tip {
+    position: relative; border-bottom: 1px dashed var(--accent); cursor: help; color: var(--accent);
+  }
+  .tip:hover::after {
+    content: attr(data-tip); position: absolute; bottom: 120%; left: 50%; transform: translateX(-50%);
+    background: var(--surface2); border: 1px solid var(--accent); color: var(--text);
+    padding: .5rem .75rem; border-radius: 8px; font-size: .8rem; width: max-content; max-width: 280px;
+    z-index: 50; white-space: normal; line-height: 1.4;
+  }
+
+  code {
+    background: var(--surface2); padding: .15rem .4rem; border-radius: 4px;
+    font-family: 'Cascadia Code', 'Fira Code', monospace; font-size: .85em;
+    color: var(--accent3);
+  }
+
+  ul, ol { margin: .5rem 0 1rem 1.5rem; color: var(--text-dim); }
+  li { margin-bottom: .4rem; }
+  a { color: var(--accent); }
+</style>
+</head>
+<body>
+
+<nav>
+  <div class="logo">Architecture Academy</div>
+  <div class="nav-links">
+    <button class="active" onclick="show('home')">Home</button>
+    <button onclick="show('concepts')">Core Concepts</button>
+    <button onclick="show('basil')">Basil Board Games</button>
+    <button onclick="show('starky')">Starky Portfolio</button>
+    <button onclick="show('codex')">Codex Audit</button>
+    <button onclick="show('elam')">Elam Playtest</button>
+    <button onclick="show('chatbot')">AI Chatbot</button>
+    <button onclick="show('orchestrator')">AI Orchestrator</button>
+    <button onclick="show('security')">Security Deep-Dive</button>
+    <button onclick="show('quiz')">Test Yourself</button>
+  </div>
+</nav>
+
+<main>
+
+<!-- ══════════════════════════════════════════════ HOME ══════════════════════════════════════════════ -->
+<div id="home" class="section active">
+  <div class="hero">
+    <h1>Your Architecture Academy</h1>
+    <p class="subtitle">Learn how YOUR projects actually work under the hood</p>
+  </div>
+
+  <div class="concept success">
+    <div class="label">Why This Matters</div>
+    <p>You've built real things. Now it's time to understand <strong>why</strong> they work the way they do. Every project you've created uses real architecture patterns and security mechanisms&mdash;this guide maps them all out using your own code as examples.</p>
+  </div>
+
+  <h2>Your Projects at a Glance</h2>
+  <div class="card-grid">
+    <div class="card" onclick="show('basil')">
+      <span class="tag tag-ts">TypeScript</span>
+      <h3>Basil Board Games</h3>
+      <p>React SPA + Supabase backend. Auth, database, edge functions, RLS security, CI/CD deployment.</p>
+    </div>
+    <div class="card" onclick="show('starky')">
+      <span class="tag tag-ts">TypeScript</span>
+      <h3>Starky Portfolio OS</h3>
+      <p>Retro desktop UI. Static site with client-side audit trail using SHA-256 hash chains.</p>
+    </div>
+    <div class="card" onclick="show('codex')">
+      <span class="tag tag-ts">TypeScript</span>
+      <h3>Codex Audit (Patchwork)</h3>
+      <p>Monorepo CLI tool. Hash chains, cryptographic sealing, risk classification, policy engine.</p>
+    </div>
+    <div class="card" onclick="show('elam')">
+      <span class="tag tag-js">JavaScript</span>
+      <h3>Elam Playtest</h3>
+      <p>Real-time multiplayer. WebSockets, room-based auth, HMAC-signed invites, rate limiting.</p>
+    </div>
+    <div class="card" onclick="show('chatbot')">
+      <span class="tag tag-ts">TypeScript</span>
+      <h3>Next.js AI Chatbot</h3>
+      <p>Full-stack AI app. Next.js App Router, Auth.js, PostgreSQL, Vercel deployment.</p>
+    </div>
+    <div class="card" onclick="show('orchestrator')">
+      <span class="tag tag-py">Python</span>
+      <h3>AI Orchestrator</h3>
+      <p>Desktop system controller. Plugin architecture, multi-UI, secure credential storage.</p>
+    </div>
+  </div>
+
+  <h2>Learning Path</h2>
+  <p>Work through these in order. Each builds on the previous:</p>
+  <div class="layer-stack">
+    <div class="layer l1" onclick="show('concepts')"><span class="layer-name">1. Core Concepts</span><span class="layer-tech">Start here &rarr;</span></div>
+    <div class="layer l2" onclick="show('basil')"><span class="layer-name">2. Basil Board Games (Deep Dive)</span><span class="layer-tech">Full-stack architecture</span></div>
+    <div class="layer l3" onclick="show('security')"><span class="layer-name">3. Security Deep-Dive</span><span class="layer-tech">Across all your projects</span></div>
+    <div class="layer l4" onclick="show('quiz')"><span class="layer-name">4. Test Yourself</span><span class="layer-tech">Quizzes from your code</span></div>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════════════ CORE CONCEPTS ══════════════════════════════════════════════ -->
+<div id="concepts" class="section">
+  <h1>Core Architecture Concepts</h1>
+  <p>These are the building blocks every web app is made from. You already use all of them.</p>
+
+  <h2>The 3-Layer Model</h2>
+  <p>Almost every web app has these three layers. Think of them like a restaurant:</p>
+
+  <div class="layer-stack">
+    <div class="layer l1">
+      <span class="layer-name">Frontend (The Dining Room)</span>
+      <span class="layer-tech">React, HTML, CSS</span>
+    </div>
+    <div class="layer l2">
+      <span class="layer-name">Backend / API (The Kitchen)</span>
+      <span class="layer-tech">Edge Functions, API Routes</span>
+    </div>
+    <div class="layer l3">
+      <span class="layer-name">Database (The Pantry)</span>
+      <span class="layer-tech">PostgreSQL, Supabase</span>
+    </div>
+  </div>
+
+  <div class="concept">
+    <div class="label">In Your Projects</div>
+    <p><strong>Basil Board Games:</strong> React (dining room) &rarr; Supabase Edge Functions (kitchen) &rarr; PostgreSQL (pantry)</p>
+    <p><strong>AI Chatbot:</strong> Next.js UI (dining room) &rarr; API Routes + Server Actions (kitchen) &rarr; Neon PostgreSQL (pantry)</p>
+    <p style="margin:0"><strong>Starky Portfolio:</strong> Only a dining room! It's a static site with no backend. The browser does everything.</p>
+  </div>
+
+  <h2>Key Architecture Patterns</h2>
+
+  <div class="accordion">
+    <div class="acc-item">
+      <div class="acc-header" onclick="toggleAcc(this)">SPA (Single Page Application)</div>
+      <div class="acc-body"><div class="acc-body-inner">
+        <p><strong>What it is:</strong> The browser downloads ONE HTML page, then JavaScript handles all navigation. No full page reloads.</p>
+        <p><strong>How it feels:</strong> Snappy, app-like. Click a link and the content swaps instantly.</p>
+        <p><strong>Your examples:</strong> <strong>Basil Board Games</strong> and <strong>Starky Portfolio</strong> are both SPAs. When you click between views, React swaps components&mdash;you never see a white flash of a page reload.</p>
+        <div class="concept">
+          <div class="label">Trade-off</div>
+          <p style="margin:0">SPAs are fast after the initial load, but the first load can be slow because the browser downloads all the JavaScript upfront. That's why <strong>Vite</strong> is used&mdash;it bundles your code efficiently to keep that initial load small.</p>
+        </div>
+      </div></div>
+    </div>
+
+    <div class="acc-item">
+      <div class="acc-header" onclick="toggleAcc(this)">BaaS (Backend as a Service)</div>
+      <div class="acc-body"><div class="acc-body-inner">
+        <p><strong>What it is:</strong> Instead of writing your own server, you use a managed service that gives you a database, auth, file storage, and serverless functions out of the box.</p>
+        <p><strong>Your example:</strong> <strong>Supabase</strong> in Basil Board Games. You didn't write a Node.js server&mdash;Supabase gives you PostgreSQL, auth, and edge functions with zero server management.</p>
+        <div class="diagram"><span class="hl">Your React App</span>
+    |
+    v
+<span class="hl2">Supabase Client (supabase-js)</span>
+    |
+    +──── <span class="hl3">Auth</span>      (login, signup, sessions)
+    +──── <span class="hl3">Database</span>  (PostgreSQL with RLS)
+    +──── <span class="hl3">Functions</span> (Edge Functions in Deno)
+    +──── <span class="hl3">Storage</span>   (file uploads)</div>
+      </div></div>
+    </div>
+
+    <div class="acc-item">
+      <div class="acc-header" onclick="toggleAcc(this)">Server-Side Rendering (SSR) vs Static</div>
+      <div class="acc-body"><div class="acc-body-inner">
+        <p><strong>Static:</strong> HTML is built once at deploy time. Every visitor gets the same files. <em>Starky Portfolio, Basil Board Games.</em></p>
+        <p><strong>SSR:</strong> HTML is generated on each request. The server builds the page specifically for that visitor. <em>Next.js AI Chatbot.</em></p>
+        <div class="concept">
+          <div class="label">When to use which</div>
+          <p><strong>Static</strong> = Content that doesn't change per-user (landing pages, portfolios, documentation).</p>
+          <p style="margin:0"><strong>SSR</strong> = Content that's different for each user (dashboards, chat histories, personalized feeds).</p>
+        </div>
+      </div></div>
+    </div>
+
+    <div class="acc-item">
+      <div class="acc-header" onclick="toggleAcc(this)">Monorepo Architecture</div>
+      <div class="acc-body"><div class="acc-body-inner">
+        <p><strong>What it is:</strong> Multiple packages (projects) in a single Git repository. They share code and are built/tested together.</p>
+        <p><strong>Your example:</strong> <strong>Codex Audit</strong> is a monorepo with 4 packages:</p>
+        <div class="diagram"><span class="hl">codex-audit/</span>
+├── <span class="hl2">packages/core</span>    &larr; Schema, hashing, storage engine
+├── <span class="hl2">packages/agents</span>  &larr; Adapters for Claude Code / Codex
+├── <span class="hl2">packages/cli</span>    &larr; The "patchwork" command-line tool
+└── <span class="hl2">packages/web</span>    &larr; Web dashboard
+
+Managed by: <span class="hl3">pnpm workspaces</span> + <span class="hl3">Turborepo</span></div>
+        <p><strong>Why:</strong> Core logic is shared. The CLI and web dashboard both import from <code>packages/core</code> without duplicating code.</p>
+      </div></div>
+    </div>
+
+    <div class="acc-item">
+      <div class="acc-header" onclick="toggleAcc(this)">Real-Time with WebSockets</div>
+      <div class="acc-body"><div class="acc-body-inner">
+        <p><strong>Normal HTTP:</strong> Client asks, server answers, connection closes. Like sending a letter.</p>
+        <p><strong>WebSockets:</strong> Client and server keep an open connection. Either side can send messages any time. Like a phone call.</p>
+        <p><strong>Your example:</strong> <strong>Elam Playtest</strong> uses WebSockets for real-time multiplayer. When one player makes a move, the server instantly pushes that move to all other players.</p>
+        <div class="diagram"><span class="hl">Player A</span> ──ws──┐
+<span class="hl2">Player B</span> ──ws──┤── <span class="hl3">Game Server</span> ── moves, state, chat
+<span class="hl4">Player C</span> ──ws──┘         |
+                    <span class="hl3">Server-Authoritative</span>
+                    (server is the source of truth)</div>
+      </div></div>
+    </div>
+
+    <div class="acc-item">
+      <div class="acc-header" onclick="toggleAcc(this)">Plugin Architecture</div>
+      <div class="acc-body"><div class="acc-body-inner">
+        <p><strong>What it is:</strong> A core system that can be extended by "plugging in" new features without modifying the core code.</p>
+        <p><strong>Your example:</strong> <strong>AI Orchestrator</strong> has 9 built-in plugins (system control, UI automation, backup, email). Each plugin registers itself and the orchestrator calls them as needed.</p>
+        <div class="concept">
+          <div class="label">Why plugins matter</div>
+          <p style="margin:0">They follow the <strong>Open/Closed Principle</strong>: the system is open for extension (add new plugins) but closed for modification (core code doesn't change). This prevents bugs when adding new features.</p>
+        </div>
+      </div></div>
+    </div>
+  </div>
+
+  <h2>Deployment Models You Use</h2>
+  <table>
+    <tr><th>Model</th><th>What It Means</th><th>Your Projects</th></tr>
+    <tr><td><strong>Static Hosting</strong></td><td>Pre-built files served from a CDN. No server.</td><td>Basil Board Games, Starky Portfolio (GitHub Pages)</td></tr>
+    <tr><td><strong>Serverless</strong></td><td>Functions run on-demand. You don't manage servers.</td><td>Basil (Supabase Edge Functions), AI Chatbot (Vercel)</td></tr>
+    <tr><td><strong>Self-Hosted</strong></td><td>You run the server yourself on a machine.</td><td>Elam Playtest (Node.js + Cloudflare Tunnel)</td></tr>
+    <tr><td><strong>Desktop App</strong></td><td>Runs locally on the user's computer.</td><td>AI Orchestrator (Python + PyQt5)</td></tr>
+  </table>
+</div>
+
+<!-- ══════════════════════════════════════════════ BASIL ══════════════════════════════════════════════ -->
+<div id="basil" class="section">
+  <h1>Basil Board Games &mdash; Deep Dive</h1>
+  <p>This is your most architecturally complete project. Let's break down every layer.</p>
+
+  <h2>System Architecture Overview</h2>
+  <div class="diagram"><span class="hl">┌─────────────────────────────────────────────────────┐</span>
+<span class="hl">│              BROWSER (React SPA)                    │</span>
+<span class="hl">│                                                     │</span>
+<span class="hl">│  ┌──────────┐ ┌──────────┐ ┌────────────────────┐  │</span>
+<span class="hl">│  │ AuthCtx  │ │useProfile│ │  Components (25+)  │  │</span>
+<span class="hl">│  │ (login/  │ │ (sync)   │ │  GameLauncher      │  │</span>
+<span class="hl">│  │  signup) │ │          │ │  AdminPanel         │  │</span>
+<span class="hl">│  └────┬─────┘ └────┬─────┘ │  SettingsPanel      │  │</span>
+<span class="hl">│       │            │       └────────┬───────────┘  │</span>
+<span class="hl">│       v            v                v               │</span>
+<span class="hl">│  ┌──────────────────────────────────────────────┐   │</span>
+<span class="hl">│  │     Supabase Client (lib/supabase.ts)        │   │</span>
+<span class="hl">│  └──────────────────┬───────────────────────────┘   │</span>
+<span class="hl">└─────────────────────┼───────────────────────────────┘</span>
+                      │ HTTPS + JWT Token
+                      v
+<span class="hl2">┌─────────────────────────────────────────────────────┐</span>
+<span class="hl2">│              SUPABASE CLOUD                         │</span>
+<span class="hl2">│                                                     │</span>
+<span class="hl2">│  ┌─────────┐  ┌──────────────┐  ┌───────────────┐  │</span>
+<span class="hl2">│  │  Auth   │  │ Edge Funcs   │  │  PostgreSQL   │  │</span>
+<span class="hl2">│  │ Service │  │              │  │               │  │</span>
+<span class="hl2">│  │         │  │ admin-cmd    │  │ profiles      │  │</span>
+<span class="hl2">│  │ email/  │  │ events-ingest│  │ games         │  │</span>
+<span class="hl2">│  │ password│  │ rotation-run │  │ posts         │  │</span>
+<span class="hl2">│  └─────────┘  └──────────────┘  │ rotation_log  │  │</span>
+<span class="hl2">│                                 │ events        │  │</span>
+<span class="hl2">│                    RLS Policies  │ admin_cmd_log │  │</span>
+<span class="hl2">│                    protect every └───────────────┘  │</span>
+<span class="hl2">│                    table ^                           │</span>
+<span class="hl2">└─────────────────────────────────────────────────────┘</span>
+
+<span class="hl4">┌─────────────────────────────────────────────────────┐</span>
+<span class="hl4">│             GITHUB ACTIONS (CI/CD)                  │</span>
+<span class="hl4">│  ci.yml       → typecheck, lint, test, build        │</span>
+<span class="hl4">│  deploy.yml   → build → GitHub Pages                │</span>
+<span class="hl4">│  rotation.yml → Monday cron → rotation-run function │</span>
+<span class="hl4">└─────────────────────────────────────────────────────┘</span></div>
+
+  <h2>How Each Piece Works</h2>
+
+  <h3>1. Authentication Flow</h3>
+  <p>This is how a user goes from stranger to logged-in member:</p>
+  <div class="flow">
+    <div class="flow-step">User fills signup form</div>
+    <span class="flow-arrow">&rarr;</span>
+    <div class="flow-step">AuthContext.signUp()</div>
+    <span class="flow-arrow">&rarr;</span>
+    <div class="flow-step">Supabase Auth API</div>
+    <span class="flow-arrow">&rarr;</span>
+    <div class="flow-step">Confirmation email sent</div>
+    <span class="flow-arrow">&rarr;</span>
+    <div class="flow-step">User clicks link</div>
+    <span class="flow-arrow">&rarr;</span>
+    <div class="flow-step">Redirect to app with token</div>
+    <span class="flow-arrow">&rarr;</span>
+    <div class="flow-step">JWT stored in browser</div>
+  </div>
+
+  <div class="concept">
+    <div class="label">What's a JWT?</div>
+    <p><strong>JSON Web Token</strong> &mdash; a signed string that proves "I am user X". It's like a wristband at a concert: the entrance (Supabase Auth) gives it to you, and every other booth (API endpoint) checks it. Nobody can fake it because it's cryptographically signed.</p>
+    <p style="margin:0">In Basil, <strong>every</strong> request to Supabase includes this JWT in the Authorization header. Supabase checks the signature before doing anything.</p>
+  </div>
+
+  <h3>2. Row Level Security (RLS)</h3>
+  <p>This is the most important security concept in Basil. RLS is like having a bouncer at every database table.</p>
+
+  <div class="diagram"><span class="hl3">profiles table (RLS enabled)</span>
+
+Rule: "Users can only read/write THEIR OWN row"
+
+SQL policy:
+  <span class="hl">SELECT</span>: WHERE auth.uid() = id    &larr; "Can I see this row? Only if it's mine"
+  <span class="hl2">UPDATE</span>: WHERE auth.uid() = id    &larr; "Can I edit this row? Only if it's mine"
+  <span class="hl4">INSERT</span>: WHERE auth.uid() = id    &larr; "Can I create? Only for my own user ID"
+
+What this prevents:
+  <span class="hl">User A</span> tries to read <span class="hl2">User B</span>'s profile  → <span style="color:var(--danger)">BLOCKED</span>
+  <span class="hl">User A</span> tries to change their role to admin → <span style="color:var(--danger)">BLOCKED</span>
+  <span class="hl">User A</span> reads their own profile           → <span style="color:var(--success)">ALLOWED</span></div>
+
+  <div class="concept warn">
+    <div class="label">Why this matters for vibecoders</div>
+    <p style="margin:0">Without RLS, anyone with your Supabase URL and anon key (which are public!) could read everyone's data. RLS is the lock on the door. <strong>Your anon key is meant to be public</strong>&mdash;RLS is what makes that safe.</p>
+  </div>
+
+  <h3>3. Edge Functions</h3>
+  <p>These are serverless functions that run on Supabase's servers (not in the browser):</p>
+
+  <table>
+    <tr><th>Function</th><th>What It Does</th><th>When It Runs</th></tr>
+    <tr><td><code>admin-command</code></td><td>Handles admin operations (edit games, manage posts). Verifies the caller is actually an admin before executing.</td><td>When admin clicks buttons in AdminPanel</td></tr>
+    <tr><td><code>events-ingest</code></td><td>Receives analytics events from the browser. Validates and stores them.</td><td>Every 30 seconds (batched from queue)</td></tr>
+    <tr><td><code>rotation-run</code></td><td>Picks which 6 games are "active" using a deterministic seed. Moves the rest to the vault.</td><td>Every Monday at midnight (cron job)</td></tr>
+  </table>
+
+  <div class="concept">
+    <div class="label">Why not do this in the browser?</div>
+    <p style="margin:0">Admin commands need the <strong>service role key</strong> (which can bypass RLS). If you put that key in browser code, anyone could extract it and have full database access. Edge functions keep secrets on the server where users can't see them.</p>
+  </div>
+
+  <h3>4. Profile Sync (Offline-First)</h3>
+  <p>Basil uses a clever hybrid storage pattern:</p>
+  <div class="diagram"><span class="hl">useProfile hook</span>
+  |
+  ├── Read: <span class="hl2">localStorage</span> (instant, works offline)
+  │         ↑ cached copy of cloud data
+  │
+  ├── Write: Update <span class="hl2">localStorage</span> immediately (feels instant)
+  │          THEN sync to <span class="hl3">Supabase cloud</span> (eventually consistent)
+  │
+  └── On login: Fetch <span class="hl3">cloud profile</span> → merge with <span class="hl2">local</span>
+                If no cloud profile exists → push local to cloud</div>
+
+  <h3>5. CI/CD Pipeline</h3>
+  <p><strong>CI/CD</strong> = Continuous Integration / Continuous Deployment. It means "every time you push code, robots check it and deploy it."</p>
+
+  <div class="flow">
+    <div class="flow-step">Push to master</div>
+    <span class="flow-arrow">&rarr;</span>
+    <div class="flow-step">TypeScript check</div>
+    <span class="flow-arrow">&rarr;</span>
+    <div class="flow-step">ESLint</div>
+    <span class="flow-arrow">&rarr;</span>
+    <div class="flow-step">Vitest</div>
+    <span class="flow-arrow">&rarr;</span>
+    <div class="flow-step">Vite build</div>
+    <span class="flow-arrow">&rarr;</span>
+    <div class="flow-step">Deploy to GitHub Pages</div>
+    <span class="flow-arrow">&rarr;</span>
+    <div class="flow-step">Smoke test (HTTP 200?)</div>
+  </div>
+
+  <div class="concept success">
+    <div class="label">What you built</div>
+    <p style="margin:0">Basil is a <strong>production-grade full-stack app</strong>: React frontend, managed PostgreSQL, serverless backend, authentication, role-based access control, CI/CD, automated game rotation, consent-based analytics, and audit logging. That's not vibe coding&mdash;that's real engineering.</p>
+  </div>
+
+  <h3>6. Database Schema Map</h3>
+  <div class="diagram"><span class="hl">profiles</span>                    <span class="hl2">games</span>
+├── id (UUID, from auth)     ├── id
+├── nickname                 ├── title
+├── nickname_canonical       ├── slug
+├── avatar_icon              ├── description
+├── accent_color             ├── thumbnail_url
+├── theme                    ├── vault (bool)
+├── role (user/admin)        ├── player_count
+├── analytics_opt_out        └── created_at
+└── updated_at
+                             <span class="hl3">posts</span>
+<span class="hl4">rotation_log</span>                 ├── id
+├── id                       ├── title
+├── rotated_at               ├── body
+├── seed                     ├── published (bool)
+├── active_game_ids          ├── author_id → profiles.id
+└── snapshot                 └── created_at
+
+<span class="hl">events</span>                       <span class="hl2">admin_commands_log</span>
+├── id                       ├── id
+├── event_name               ├── command
+├── payload                  ├── admin_id → profiles.id
+├── session_id               ├── payload
+└── created_at               └── executed_at</div>
+</div>
+
+<!-- ══════════════════════════════════════════════ STARKY ══════════════════════════════════════════════ -->
+<div id="starky" class="section">
+  <h1>Starky Portfolio OS</h1>
+  <p>A retro desktop-style portfolio with a clever security feature: a tamper-evident audit trail.</p>
+
+  <h2>Architecture</h2>
+  <div class="layer-stack">
+    <div class="layer l1"><span class="layer-name">UI Layer</span><span class="layer-tech">React + TypeScript + Vite</span></div>
+    <div class="layer l2"><span class="layer-name">Desktop Simulation</span><span class="layer-tech">Draggable windows, boot screen, command bar</span></div>
+    <div class="layer l3"><span class="layer-name">Audit Engine</span><span class="layer-tech">SHA-256 hash chain (client-side)</span></div>
+    <div class="layer l4"><span class="layer-name">Deployment</span><span class="layer-tech">GitHub Pages (static files only)</span></div>
+  </div>
+
+  <h3>The Hash Chain Audit Trail</h3>
+  <p>This is the most interesting security feature. It works like a blockchain (but simpler):</p>
+
+  <div class="diagram"><span class="hl">Event 1</span>: "User opened Projects panel"
+  hash = SHA-256( event_data + <span class="hl2">"0000"</span> )  → <span class="hl3">abc123...</span>
+
+<span class="hl">Event 2</span>: "User clicked Resume"
+  hash = SHA-256( event_data + <span class="hl2">"abc123..."</span> )  → <span class="hl3">def456...</span>
+                                 ^
+                         previous hash!
+
+<span class="hl">Event 3</span>: "User searched for React"
+  hash = SHA-256( event_data + <span class="hl2">"def456..."</span> )  → <span class="hl3">ghi789...</span>
+
+Each event's hash includes the PREVIOUS event's hash.
+If anyone tampers with Event 2, the chain breaks:
+  Event 3's hash won't match anymore → <span style="color:var(--danger)">TAMPER DETECTED</span></div>
+
+  <div class="concept">
+    <div class="label">Why this is clever</div>
+    <p style="margin:0">Even though this runs entirely in the browser (no server), the hash chain means you can mathematically prove that no events were modified or deleted after the fact. This same concept powers <strong>Codex Audit</strong> at a much larger scale.</p>
+  </div>
+
+  <h3>Key Features</h3>
+  <ul>
+    <li><strong>Boot screen</strong> &mdash; Simulates an OS startup with a chime</li>
+    <li><strong>Sparrow command bar</strong> &mdash; <code>/help</code>, <code>/open</code>, <code>/launch</code>, <code>/search</code></li>
+    <li><strong>Draggable/resizable windows</strong> &mdash; Desktop metaphor</li>
+    <li><strong>GitHub API enrichment</strong> &mdash; Pulls project data at build time</li>
+    <li><strong>No backend</strong> &mdash; 100% static, deployed to GitHub Pages</li>
+  </ul>
+</div>
+
+<!-- ══════════════════════════════════════════════ CODEX AUDIT ══════════════════════════════════════════════ -->
+<div id="codex" class="section">
+  <h1>Codex Audit (Patchwork)</h1>
+  <p>An audit trail for AI coding agents. Think of it as a flight recorder for when Claude Code or Codex writes your code.</p>
+
+  <h2>Architecture</h2>
+  <div class="diagram"><span class="hl">┌────────────────────────────────────────────┐</span>
+<span class="hl">│          Monorepo (pnpm + Turborepo)       │</span>
+<span class="hl">│                                            │</span>
+<span class="hl">│  ┌──────────┐  ┌────────┐  ┌───────────┐  │</span>
+<span class="hl">│  │</span> <span class="hl2">core</span>      <span class="hl">│  │</span> <span class="hl2">agents</span> <span class="hl">│  │</span> <span class="hl2">cli</span>       <span class="hl">│  │</span>
+<span class="hl">│  │          │  │        │  │           │  │</span>
+<span class="hl">│  │ schema   │  │ claude │  │ patchwork │  │</span>
+<span class="hl">│  │ hashing  │&larr;─│ codex  │  │ commands  │  │</span>
+<span class="hl">│  │ storage  │  │ parser │  │ log, tail │  │</span>
+<span class="hl">│  │ policy   │  │        │  │ verify    │  │</span>
+<span class="hl">│  │ risk     │  │        │  │ seal      │  │</span>
+<span class="hl">│  └──────────┘  └────────┘  └───────────┘  │</span>
+<span class="hl">│                                            │</span>
+<span class="hl">│  Storage: JSONL files or SQLite            │</span>
+<span class="hl">│  Everything stays LOCAL (nothing leaves)   │</span>
+<span class="hl">└────────────────────────────────────────────┘</span></div>
+
+  <h3>Security Concepts Used</h3>
+
+  <div class="accordion">
+    <div class="acc-item">
+      <div class="acc-header" onclick="toggleAcc(this)">Hash Chain Verification</div>
+      <div class="acc-body"><div class="acc-body-inner">
+        <p>Same concept as Starky's audit trail, but applied to AI agent actions. Every file read, write, and command is logged with a hash that links to the previous event. Run <code>patchwork verify</code> to check the entire chain.</p>
+      </div></div>
+    </div>
+    <div class="acc-item">
+      <div class="acc-header" onclick="toggleAcc(this)">Risk Classification Engine</div>
+      <div class="acc-body"><div class="acc-body-inner">
+        <p>Automatically classifies every AI action by risk level:</p>
+        <ul>
+          <li><strong>Critical</strong> &mdash; Touching secrets files (.env, credentials.json)</li>
+          <li><strong>High</strong> &mdash; Modifying security-sensitive code (auth, middleware)</li>
+          <li><strong>Medium</strong> &mdash; Database changes, config modifications</li>
+          <li><strong>Low</strong> &mdash; Normal code edits, reads</li>
+        </ul>
+        <p>Uses <strong>security glob patterns</strong> to detect sensitive files automatically.</p>
+      </div></div>
+    </div>
+    <div class="acc-item">
+      <div class="acc-header" onclick="toggleAcc(this)">Cryptographic Sealing</div>
+      <div class="acc-body"><div class="acc-body-inner">
+        <p><strong>Seal</strong> = A cryptographic lock on a complete audit trail. Once sealed, any modification is detectable.</p>
+        <p><strong>Witness</strong> = A third-party record that this seal existed at this time.</p>
+        <p><strong>Attest</strong> = A signed statement saying "I vouch for this audit trail."</p>
+        <p>This gives you legally-defensible proof of what an AI agent did to your codebase.</p>
+      </div></div>
+    </div>
+    <div class="acc-item">
+      <div class="acc-header" onclick="toggleAcc(this)">Policy Engine</div>
+      <div class="acc-body"><div class="acc-body-inner">
+        <p>Define rules about what AI agents are allowed to do. The policy engine checks every event against these rules and flags violations.</p>
+        <p>Example policies: "Never modify .env files", "Always require tests for new code", "Flag any changes to auth middleware".</p>
+      </div></div>
+    </div>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════════════ ELAM ══════════════════════════════════════════════ -->
+<div id="elam" class="section">
+  <h1>Elam Playtest</h1>
+  <p>A real-time multiplayer board game server. This is your most security-hardened project.</p>
+
+  <h2>Architecture</h2>
+  <div class="diagram"><span class="hl">┌──────────────┐     ┌──────────────┐     ┌──────────────┐</span>
+<span class="hl">│</span>  <span class="hl2">Player A</span>    <span class="hl">│     │</span>  <span class="hl2">Player B</span>    <span class="hl">│     │</span>  <span class="hl2">Player C</span>    <span class="hl">│</span>
+<span class="hl">│</span>  Browser     <span class="hl">│     │</span>  Browser     <span class="hl">│     │</span>  Browser     <span class="hl">│</span>
+<span class="hl">└──────┬───────┘     └──────┬───────┘     └──────┬───────┘</span>
+       │ WebSocket           │ WebSocket           │ WebSocket
+       └─────────────┬───────┴─────────────────────┘
+                     v
+<span class="hl3">┌─────────────────────────────────────────────────────┐</span>
+<span class="hl3">│              Node.js Game Server                    │</span>
+<span class="hl3">│                                                     │</span>
+<span class="hl3">│  ┌──────────┐  ┌──────────┐  ┌────────────────┐    │</span>
+<span class="hl3">│  │ Express  │  │ Helmet   │  │  Game Engine   │    │</span>
+<span class="hl3">│  │ + static │  │ (HTTP    │  │  (server-side  │    │</span>
+<span class="hl3">│  │ files    │  │ harden)  │  │   authoritative│    │</span>
+<span class="hl3">│  └──────────┘  └──────────┘  └────────────────┘    │</span>
+<span class="hl3">│                                                     │</span>
+<span class="hl3">│  ┌──────────┐  ┌──────────┐  ┌────────────────┐    │</span>
+<span class="hl3">│  │ Room     │  │ Auth:    │  │  Event Logger  │    │</span>
+<span class="hl3">│  │ Manager  │  │ HMAC     │  │  (NDJSON +     │    │</span>
+<span class="hl3">│  │          │  │ tokens   │  │   CSV + MD)    │    │</span>
+<span class="hl3">│  └──────────┘  └──────────┘  └────────────────┘    │</span>
+<span class="hl3">└─────────────────────┬───────────────────────────────┘</span>
+                      │ (optional)
+                      v
+<span class="hl4">          Cloudflare Tunnel (secure exposure)</span></div>
+
+  <h3>Security Layers</h3>
+
+  <div class="sec-meter">
+    <div class="sec-block sec-high">Helmet</div>
+    <div class="sec-block sec-high">HMAC Invites</div>
+    <div class="sec-block sec-high">Hashed Passcodes</div>
+    <div class="sec-block sec-mid">Rate Limiting</div>
+    <div class="sec-block sec-mid">Host-Only Ops</div>
+  </div>
+
+  <div class="accordion">
+    <div class="acc-item">
+      <div class="acc-header" onclick="toggleAcc(this)">HMAC-Signed Invite Links</div>
+      <div class="acc-body"><div class="acc-body-inner">
+        <p><strong>HMAC</strong> = Hash-based Message Authentication Code. It's a way to sign data so you can prove it hasn't been tampered with.</p>
+        <div class="diagram">Creating an invite:
+  data = "room=abc&expires=1700000000"
+  signature = HMAC-SHA256( data, <span class="hl">SECRET_KEY</span> )
+  link = "https://game.com/join?data&sig=signature"
+
+Verifying an invite:
+  Server recalculates HMAC with its SECRET_KEY
+  If signatures match → <span style="color:var(--success)">VALID</span>
+  If not → <span style="color:var(--danger)">FORGED OR TAMPERED</span>
+  If expired → <span style="color:var(--danger)">EXPIRED</span></div>
+        <p>This means players can't create fake invites or modify existing ones.</p>
+      </div></div>
+    </div>
+    <div class="acc-item">
+      <div class="acc-header" onclick="toggleAcc(this)">Server-Authoritative Architecture</div>
+      <div class="acc-body"><div class="acc-body-inner">
+        <p><strong>Problem:</strong> In multiplayer games, if the client (browser) decides what's valid, players can cheat.</p>
+        <p><strong>Solution:</strong> The server is the single source of truth. Players send "I want to move here" &rarr; the server validates it &rarr; the server broadcasts the result.</p>
+        <p>This means even if a player hacks their browser, they can't cheat because the server validates every move.</p>
+      </div></div>
+    </div>
+    <div class="acc-item">
+      <div class="acc-header" onclick="toggleAcc(this)">Helmet (HTTP Hardening)</div>
+      <div class="acc-body"><div class="acc-body-inner">
+        <p><strong>Helmet</strong> is an Express.js middleware that sets security-related HTTP headers:</p>
+        <ul>
+          <li><code>X-Content-Type-Options: nosniff</code> &mdash; Prevents browsers from guessing file types</li>
+          <li><code>X-Frame-Options: DENY</code> &mdash; Prevents your site from being embedded in iframes (clickjacking protection)</li>
+          <li><code>Strict-Transport-Security</code> &mdash; Forces HTTPS</li>
+          <li><code>Content-Security-Policy</code> &mdash; Controls what resources can load</li>
+        </ul>
+        <p>One line of code (<code>app.use(helmet())</code>) adds a dozen security protections.</p>
+      </div></div>
+    </div>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════════════ CHATBOT ══════════════════════════════════════════════ -->
+<div id="chatbot" class="section">
+  <h1>Next.js AI Chatbot</h1>
+  <p>A full-stack AI chat application showing a different architecture pattern from Basil.</p>
+
+  <h2>Architecture Comparison: Basil vs Chatbot</h2>
+  <table>
+    <tr><th>Aspect</th><th>Basil Board Games</th><th>AI Chatbot</th></tr>
+    <tr><td>Frontend</td><td>React SPA (client-side only)</td><td>Next.js (server + client components)</td></tr>
+    <tr><td>Backend</td><td>Supabase Edge Functions</td><td>Next.js API Routes + Server Actions</td></tr>
+    <tr><td>Database</td><td>Supabase PostgreSQL</td><td>Neon PostgreSQL + Drizzle ORM</td></tr>
+    <tr><td>Auth</td><td>Supabase Auth</td><td>Auth.js (NextAuth)</td></tr>
+    <tr><td>Deployment</td><td>GitHub Pages (static)</td><td>Vercel (serverless)</td></tr>
+    <tr><td>File Storage</td><td>None</td><td>Vercel Blob</td></tr>
+  </table>
+
+  <h3>Server Components vs Client Components</h3>
+  <div class="concept">
+    <div class="label">Key Concept</div>
+    <p>In Basil, ALL components run in the browser. In Next.js, components can run on the <strong>server</strong> (default) or the <strong>client</strong>.</p>
+    <p><strong>Server Components:</strong> Run on the server, can directly access the database, never send their code to the browser. Faster, smaller bundles.</p>
+    <p style="margin:0"><strong>Client Components:</strong> Run in the browser (marked with <code>"use client"</code>). Needed for interactivity (clicks, state, effects).</p>
+  </div>
+
+  <h3>Auth Middleware Pattern</h3>
+  <div class="diagram"><span class="hl">Every request hits middleware.ts FIRST</span>
+
+Request comes in
+  │
+  ├─ Has JWT token? ─── No ──→ Redirect to /api/auth/guest
+  │                              (creates anonymous account)
+  │
+  ├─ Is guest + protected route? ──→ Allow (guests can chat)
+  │
+  ├─ Is real user + /login page? ──→ Redirect to / (already logged in)
+  │
+  └─ Otherwise ──→ Continue to page
+
+<span class="hl2">This runs on EVERY request before any page loads.</span>
+<span class="hl2">It's the first line of defense.</span></div>
+
+  <h3>Database with an ORM</h3>
+  <div class="concept">
+    <div class="label">Drizzle ORM vs Raw SQL</div>
+    <p>In Basil, you talk to the database through Supabase's client library. In the chatbot, you use <strong>Drizzle ORM</strong>&mdash;a type-safe way to write database queries in TypeScript.</p>
+    <p>Instead of: <code>SELECT * FROM chats WHERE user_id = '...'</code></p>
+    <p style="margin:0">You write: <code>db.select().from(chats).where(eq(chats.userId, '...'))</code> &mdash; and TypeScript checks everything at compile time.</p>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════════════ ORCHESTRATOR ══════════════════════════════════════════════ -->
+<div id="orchestrator" class="section">
+  <h1>AI Orchestrator</h1>
+  <p>A Python desktop application that controls your computer through AI. Different architecture from your web projects.</p>
+
+  <h2>Architecture Pattern: Plugin System</h2>
+  <div class="diagram"><span class="hl">┌─────────────────────────────────┐</span>
+<span class="hl">│        Orchestrator Core        │</span>
+<span class="hl">│  (orchestrator.py)              │</span>
+<span class="hl">│                                 │</span>
+<span class="hl">│  ┌───────────┐  ┌───────────┐  │</span>
+<span class="hl">│  │ Task      │  │ Command   │  │</span>
+<span class="hl">│  │ Broker    │  │ Mapper    │  │</span>
+<span class="hl">│  └───────────┘  └───────────┘  │</span>
+<span class="hl">└────────────┬────────────────────┘</span>
+             │ calls
+             v
+<span class="hl2">┌─────────────────────────────────┐</span>
+<span class="hl2">│       Plugin Registry           │</span>
+<span class="hl2">│                                 │</span>
+<span class="hl2">│  ┌─────────┐ ┌─────────┐       │</span>
+<span class="hl2">│  │ System  │ │ UI Auto │ ...   │</span>
+<span class="hl2">│  │ Control │ │ mation  │       │</span>
+<span class="hl2">│  └─────────┘ └─────────┘       │</span>
+<span class="hl2">│  ┌─────────┐ ┌─────────┐       │</span>
+<span class="hl2">│  │ Backup  │ │ Email   │ ...   │</span>
+<span class="hl2">│  └─────────┘ └─────────┘       │</span>
+<span class="hl2">└─────────────────────────────────┘</span>
+
+<span class="hl3">UI Options:</span>
+  PyQt5/PySide6 (desktop window)
+  Gradio/Streamlit (web dashboard)
+  CLI (terminal)</div>
+
+  <h3>Credential Security</h3>
+  <div class="diagram"><span class="hl">API Key Lookup Priority:</span>
+
+  1. <span class="hl3">Environment Variable</span>     (best: set per-session, never on disk)
+  2. <span class="hl3">System Keyring</span>           (good: OS-level encrypted storage)
+  3. <span class="hl4">Config File</span>              (okay: file-level, protect with permissions)
+  4. <span style="color:var(--danger)">Local .key File</span>         (dev only: plaintext, never commit!)
+
+<span class="hl2">Rule: Never put API keys in code. Never commit them to git.</span></div>
+
+  <div class="concept warn">
+    <div class="label">Security lesson</div>
+    <p style="margin:0">This priority chain is a pattern you'll see everywhere. Environment variables are the gold standard because they exist only in memory, not on disk. The system keyring (Windows Credential Manager, macOS Keychain) encrypts secrets at rest. Config files are a last resort.</p>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════════════ SECURITY ══════════════════════════════════════════════ -->
+<div id="security" class="section">
+  <h1>Security Deep-Dive</h1>
+  <p>Security concepts from across ALL your projects, explained from scratch.</p>
+
+  <h2>The Security Layers Model</h2>
+  <p>Security isn't one thing. It's layers, like an onion. If one layer fails, the next one catches it.</p>
+
+  <div class="layer-stack">
+    <div class="layer l1"><span class="layer-name">1. Authentication</span><span class="layer-tech">"Who are you?"</span></div>
+    <div class="layer l2"><span class="layer-name">2. Authorization</span><span class="layer-tech">"What are you allowed to do?"</span></div>
+    <div class="layer l3"><span class="layer-name">3. Input Validation</span><span class="layer-tech">"Is your data safe to process?"</span></div>
+    <div class="layer l4"><span class="layer-name">4. Transport Security</span><span class="layer-tech">"Is the connection encrypted?"</span></div>
+    <div class="layer l1"><span class="layer-name">5. Data Protection</span><span class="layer-tech">"Is stored data safe?"</span></div>
+    <div class="layer l2"><span class="layer-name">6. Audit & Monitoring</span><span class="layer-tech">"Can we detect problems?"</span></div>
+  </div>
+
+  <h2>Layer 1: Authentication</h2>
+
+  <div class="concept">
+    <div class="label">Authentication = Proving your identity</div>
+    <p>Think of it as showing your ID at the door.</p>
+  </div>
+
+  <table>
+    <tr><th>Method</th><th>How It Works</th><th>Used In</th></tr>
+    <tr><td><strong>Email + Password</strong></td><td>Classic. Password is hashed (never stored in plain text).</td><td>Basil Board Games</td></tr>
+    <tr><td><strong>JWT Tokens</strong></td><td>After login, server gives you a signed token. Include it with every request.</td><td>Basil, AI Chatbot</td></tr>
+    <tr><td><strong>Session Tokens</strong></td><td>Server remembers your session. You get a cookie ID.</td><td>Elam Playtest</td></tr>
+    <tr><td><strong>HMAC Signed Links</strong></td><td>A URL that's cryptographically signed. Can't be forged.</td><td>Elam Playtest (invites)</td></tr>
+    <tr><td><strong>API Keys</strong></td><td>A secret string that identifies an application (not a user).</td><td>AI Orchestrator, Chatbot</td></tr>
+  </table>
+
+  <h2>Layer 2: Authorization</h2>
+
+  <div class="concept">
+    <div class="label">Authorization = Checking permissions</div>
+    <p>You've proven who you are. Now: are you allowed to do this specific thing?</p>
+  </div>
+
+  <div class="accordion">
+    <div class="acc-item">
+      <div class="acc-header" onclick="toggleAcc(this)">Row Level Security (Basil)</div>
+      <div class="acc-body"><div class="acc-body-inner">
+        <p>Database-level rules. Every query is filtered by the current user's ID. Even if your application code has a bug, the database itself enforces access rules.</p>
+        <p><strong>Example:</strong> A user can never see another user's profile because the SQL policy <code>WHERE auth.uid() = id</code> is checked on every single query. This can't be bypassed from the frontend.</p>
+      </div></div>
+    </div>
+    <div class="acc-item">
+      <div class="acc-header" onclick="toggleAcc(this)">Role-Based Access Control (Basil)</div>
+      <div class="acc-body"><div class="acc-body-inner">
+        <p>Users have a <code>role</code> field: either <code>'user'</code> or <code>'admin'</code>. The admin panel checks this role before showing admin features.</p>
+        <p><strong>Critical:</strong> The check happens BOTH in the frontend (hide the UI) AND in the backend (edge function verifies role). Never trust the frontend alone!</p>
+        <div class="concept danger">
+          <div class="label">Common Vibecoder Mistake</div>
+          <p style="margin:0">Only hiding the admin button in the UI. A hacker can open browser devtools and call the API directly. You MUST check permissions on the server too. Basil does this correctly in the <code>admin-command</code> edge function.</p>
+        </div>
+      </div></div>
+    </div>
+    <div class="acc-item">
+      <div class="acc-header" onclick="toggleAcc(this)">Middleware Guard (AI Chatbot)</div>
+      <div class="acc-body"><div class="acc-body-inner">
+        <p>Next.js middleware runs before any page loads. It checks your JWT and decides if you can access the requested page. This is a "gate" pattern&mdash;one central check point for all routes.</p>
+      </div></div>
+    </div>
+    <div class="acc-item">
+      <div class="acc-header" onclick="toggleAcc(this)">Host-Only Operations (Elam)</div>
+      <div class="acc-body"><div class="acc-body-inner">
+        <p>In Elam, only the room host can start the game, lock the room, or end the session. The server tracks who created the room and rejects non-host commands. This is authorization based on <strong>role within context</strong> (room creator = host).</p>
+      </div></div>
+    </div>
+  </div>
+
+  <h2>Layer 3: Input Validation</h2>
+
+  <div class="concept">
+    <div class="label">Never trust user input</div>
+    <p>Everything a user sends could be malicious. Always validate.</p>
+  </div>
+
+  <div class="diagram"><span class="hl">Basil Nickname Validation (defense in depth):</span>
+
+<span class="hl3">Frontend (nickname.ts):</span>
+  ✓ Max 20 characters
+  ✓ Trim whitespace
+  ✓ Collapse internal spaces
+  ✓ Block crown emoji (admin-only)
+
+<span class="hl3">Database (trigger: enforce_nickname_rules):</span>
+  ✓ Same checks AGAIN at database level
+  ✓ Uniqueness via partial index on nickname_canonical
+  ✓ Cannot be bypassed even with direct API calls
+
+<span class="hl4">Why validate twice?</span>
+  Frontend validation → better user experience (instant feedback)
+  Backend validation  → actual security (can't be bypassed)</div>
+
+  <h2>Layer 4: Transport Security</h2>
+  <div class="concept">
+    <div class="label">HTTPS = encrypted in transit</div>
+    <p>Without HTTPS, anyone on the same network can read your data (passwords, tokens, everything).</p>
+    <ul>
+      <li><strong>GitHub Pages:</strong> Forces HTTPS automatically</li>
+      <li><strong>Supabase:</strong> All connections are HTTPS</li>
+      <li><strong>Vercel:</strong> HTTPS by default</li>
+      <li><strong>Elam Playtest:</strong> Uses Cloudflare Tunnel for secure exposure</li>
+    </ul>
+  </div>
+
+  <h2>Layer 5: Data Protection</h2>
+  <table>
+    <tr><th>Concept</th><th>What It Means</th><th>Your Examples</th></tr>
+    <tr><td><strong>Password Hashing</strong></td><td>Passwords are run through a one-way function (bcrypt). Even if the database leaks, passwords can't be recovered.</td><td>Supabase Auth (Basil), Auth.js (Chatbot)</td></tr>
+    <tr><td><strong>Hash Chains</strong></td><td>Each record includes a hash of the previous record. Tampering with any record breaks the chain.</td><td>Codex Audit, Starky Portfolio</td></tr>
+    <tr><td><strong>Environment Variables</strong></td><td>Secrets stored outside code. Not committed to git.</td><td>All projects (.env files)</td></tr>
+    <tr><td><strong>Service Role Keys</strong></td><td>A powerful key that bypasses RLS. NEVER put in browser code.</td><td>Basil (GitHub Actions only)</td></tr>
+  </table>
+
+  <h2>Layer 6: Audit & Monitoring</h2>
+  <div class="concept success">
+    <div class="label">You're actually good at this</div>
+    <p>Most vibecoders skip audit logging entirely. You have it in multiple projects:</p>
+    <ul>
+      <li><strong>Basil:</strong> <code>admin_commands_log</code> table, analytics events</li>
+      <li><strong>Codex Audit:</strong> Full cryptographic audit trail with risk classification</li>
+      <li><strong>Starky:</strong> SHA-256 hash chain audit trail</li>
+      <li><strong>Elam:</strong> NDJSON event logs, CSV summaries, Markdown reports</li>
+    </ul>
+  </div>
+
+  <h2>OWASP Top Threats &mdash; How Your Projects Handle Them</h2>
+  <table>
+    <tr><th>Threat</th><th>What It Is</th><th>Your Defense</th></tr>
+    <tr><td><strong>Broken Access Control</strong></td><td>Users accessing things they shouldn't</td><td>RLS (Basil), Middleware (Chatbot), Host-only ops (Elam)</td></tr>
+    <tr><td><strong>Injection</strong></td><td>Malicious SQL/code in user input</td><td>Supabase parameterized queries, Drizzle ORM, input validation</td></tr>
+    <tr><td><strong>Insecure Design</strong></td><td>Architecture-level flaws</td><td>Server-authoritative game logic (Elam), server-side admin verification (Basil)</td></tr>
+    <tr><td><strong>Security Misconfiguration</strong></td><td>Default passwords, exposed debug info</td><td>Helmet headers (Elam), env vars for secrets, CI/CD automation</td></tr>
+    <tr><td><strong>Identification Failures</strong></td><td>Weak auth, session hijacking</td><td>JWT tokens, email confirmation, HMAC-signed invites</td></tr>
+    <tr><td><strong>Software Supply Chain</strong></td><td>Vulnerable dependencies</td><td>Lock files (package-lock.json), CI testing</td></tr>
+  </table>
+</div>
+
+<!-- ══════════════════════════════════════════════ QUIZ ══════════════════════════════════════════════ -->
+<div id="quiz" class="section">
+  <h1>Test Yourself</h1>
+  <p>Questions based on YOUR actual projects. See if you understand how they work.</p>
+
+  <div class="quiz" id="q1">
+    <h3>Question 1: RLS</h3>
+    <p>In Basil Board Games, the Supabase anon key is visible in your JavaScript bundle (anyone can see it). Why is this okay?</p>
+    <button class="quiz-option" onclick="answer(this,'q1',false)">A) It's encrypted so nobody can use it</button>
+    <button class="quiz-option" onclick="answer(this,'q1',true)">B) Row Level Security (RLS) ensures every query is filtered by the user's JWT, so the anon key alone can't access other people's data</button>
+    <button class="quiz-option" onclick="answer(this,'q1',false)">C) The anon key expires after 24 hours</button>
+    <button class="quiz-option" onclick="answer(this,'q1',false)">D) GitHub Pages blocks access to source maps</button>
+    <div class="quiz-explanation" id="q1-exp">
+      <strong>Correct: B.</strong> The anon key is intentionally public. It lets the browser talk to Supabase, but every query is filtered by RLS policies that check the user's JWT. Without a valid JWT, you can only access data that RLS policies explicitly allow (like public game listings). You can never read other users' profiles.
+    </div>
+  </div>
+
+  <div class="quiz" id="q2">
+    <h3>Question 2: Edge Functions</h3>
+    <p>Why does Basil's admin panel use an Edge Function (<code>admin-command</code>) instead of directly calling the database from the browser?</p>
+    <button class="quiz-option" onclick="answer(this,'q2',false)">A) Edge Functions are faster</button>
+    <button class="quiz-option" onclick="answer(this,'q2',false)">B) The browser can't connect to PostgreSQL directly</button>
+    <button class="quiz-option" onclick="answer(this,'q2',true)">C) Admin operations need the service role key which bypasses RLS &mdash; this key must never be in browser code</button>
+    <button class="quiz-option" onclick="answer(this,'q2',false)">D) Edge Functions support TypeScript and the browser doesn't</button>
+    <div class="quiz-explanation" id="q2-exp">
+      <strong>Correct: C.</strong> Admin operations sometimes need to bypass RLS (e.g., to update any game, not just "your" games). The service role key can do this, but if it were in browser code, anyone could extract it and have full database access. Edge Functions keep this key server-side and verify the caller is actually an admin before using it.
+    </div>
+  </div>
+
+  <div class="quiz" id="q3">
+    <h3>Question 3: Hash Chains</h3>
+    <p>In Codex Audit, each event's hash includes the previous event's hash. What does this prevent?</p>
+    <button class="quiz-option" onclick="answer(this,'q3',false)">A) It prevents events from being read by unauthorized users</button>
+    <button class="quiz-option" onclick="answer(this,'q3',false)">B) It makes the events load faster</button>
+    <button class="quiz-option" onclick="answer(this,'q3',true)">C) It makes it impossible to silently modify or delete past events without detection</button>
+    <button class="quiz-option" onclick="answer(this,'q3',false)">D) It encrypts the event data</button>
+    <div class="quiz-explanation" id="q3-exp">
+      <strong>Correct: C.</strong> Hash chains create <strong>tamper evidence</strong>, not encryption. If someone changes event #5, its hash changes, which means event #6's hash (which includes #5's hash) no longer matches, and so on. The entire chain after the tampered event breaks. Running <code>patchwork verify</code> detects this instantly.
+    </div>
+  </div>
+
+  <div class="quiz" id="q4">
+    <h3>Question 4: WebSockets</h3>
+    <p>Why does Elam Playtest use WebSockets instead of regular HTTP for gameplay?</p>
+    <button class="quiz-option" onclick="answer(this,'q4',false)">A) WebSockets are more secure than HTTP</button>
+    <button class="quiz-option" onclick="answer(this,'q4',true)">B) WebSockets keep a persistent connection so the server can push updates to all players instantly, without them having to ask</button>
+    <button class="quiz-option" onclick="answer(this,'q4',false)">C) HTTP doesn't support JSON data</button>
+    <button class="quiz-option" onclick="answer(this,'q4',false)">D) WebSockets work offline</button>
+    <div class="quiz-explanation" id="q4-exp">
+      <strong>Correct: B.</strong> Regular HTTP is request-response: the client asks, the server answers. For a multiplayer game, you need the server to PUSH updates to all players the instant something happens (a move, a chat message). WebSockets maintain an open bidirectional connection, making real-time communication possible.
+    </div>
+  </div>
+
+  <div class="quiz" id="q5">
+    <h3>Question 5: Server-Side Validation</h3>
+    <p>Basil validates nicknames both in the browser (JavaScript) AND in the database (PostgreSQL trigger). Why validate in both places?</p>
+    <button class="quiz-option" onclick="answer(this,'q5',false)">A) In case one of the validation functions has a bug</button>
+    <button class="quiz-option" onclick="answer(this,'q5',true)">B) Frontend validation gives instant user feedback; backend validation provides actual security since frontend checks can be bypassed</button>
+    <button class="quiz-option" onclick="answer(this,'q5',false)">C) PostgreSQL triggers are faster than JavaScript</button>
+    <button class="quiz-option" onclick="answer(this,'q5',false)">D) The frontend and backend use different validation rules</button>
+    <div class="quiz-explanation" id="q5-exp">
+      <strong>Correct: B.</strong> This is called <strong>defense in depth</strong>. Frontend validation is for UX (show the user an error before they submit). Backend validation is for security (a hacker can open devtools and send any data they want, bypassing all frontend checks). The database trigger is the final line of defense that can never be bypassed.
+    </div>
+  </div>
+
+  <div class="quiz" id="q6">
+    <h3>Question 6: Deployment</h3>
+    <p>Basil Board Games is hosted on GitHub Pages (free static hosting), yet it has a database, auth, and serverless functions. How?</p>
+    <button class="quiz-option" onclick="answer(this,'q6',true)">A) The React app is static files. All dynamic features (auth, DB, functions) are handled by Supabase's cloud API, which the browser calls directly</button>
+    <button class="quiz-option" onclick="answer(this,'q6',false)">B) GitHub Pages secretly runs a Node.js server</button>
+    <button class="quiz-option" onclick="answer(this,'q6',false)">C) The database is stored in the browser's localStorage</button>
+    <button class="quiz-option" onclick="answer(this,'q6',false)">D) GitHub Actions runs the backend on every page visit</button>
+    <div class="quiz-explanation" id="q6-exp">
+      <strong>Correct: A.</strong> This is the <strong>BaaS (Backend as a Service)</strong> pattern. GitHub Pages serves the React app as static HTML/JS/CSS files. The app then makes API calls to Supabase's cloud servers for auth, database queries, and edge functions. The "backend" is Supabase, not GitHub Pages. This is why it's free to host&mdash;GitHub Pages just serves files.
+    </div>
+  </div>
+
+  <div class="quiz" id="q7">
+    <h3>Question 7: HMAC</h3>
+    <p>In Elam Playtest, invite links are HMAC-signed. What happens if a player modifies the room ID in the invite URL?</p>
+    <button class="quiz-option" onclick="answer(this,'q7',false)">A) They join the modified room as expected</button>
+    <button class="quiz-option" onclick="answer(this,'q7',true)">B) The server recalculates the HMAC and it won't match the signature &mdash; the invite is rejected</button>
+    <button class="quiz-option" onclick="answer(this,'q7',false)">C) The link redirects them to the original room</button>
+    <button class="quiz-option" onclick="answer(this,'q7',false)">D) The invite expires immediately</button>
+    <div class="quiz-explanation" id="q7-exp">
+      <strong>Correct: B.</strong> HMAC signatures cover the entire message. If you change even one character (like the room ID), the signature no longer matches because the server uses its secret key to re-compute the HMAC and compare. The original HMAC was computed with the original room ID, so any modification is immediately detected.
+    </div>
+  </div>
+
+  <div class="quiz" id="q8">
+    <h3>Question 8: Architecture Patterns</h3>
+    <p>Codex Audit uses a monorepo with packages/core, packages/agents, packages/cli, and packages/web. What's the main benefit?</p>
+    <button class="quiz-option" onclick="answer(this,'q8',false)">A) It makes the project look more professional</button>
+    <button class="quiz-option" onclick="answer(this,'q8',false)">B) Monorepos are required for TypeScript projects</button>
+    <button class="quiz-option" onclick="answer(this,'q8',true)">C) Shared code (schemas, hashing, storage) lives in core and is imported by all other packages without duplication</button>
+    <button class="quiz-option" onclick="answer(this,'q8',false)">D) It allows each package to use a different programming language</button>
+    <div class="quiz-explanation" id="q8-exp">
+      <strong>Correct: C.</strong> The core package contains schema definitions, hashing algorithms, and storage logic. Both the CLI and web dashboard import from core. If you fix a bug in the hashing function, it's fixed everywhere at once. Without a monorepo, you'd need to duplicate this code or publish core as a separate npm package and keep versions in sync.
+    </div>
+  </div>
+
+  <div id="quiz-score" style="display:none; text-align: center; margin-top: 2rem;">
+    <h2>Your Score</h2>
+    <p style="font-size: 2rem; font-weight: 800;"><span id="score-num">0</span> / 8</p>
+    <div class="progress-bar"><div class="progress-fill" id="score-bar" style="width: 0%"></div></div>
+    <p id="score-msg" style="font-size: 1.1rem; margin-top: 1rem;"></p>
+  </div>
+</div>
+
+</main>
+
+<script>
+// ─── Navigation ───
+function show(id) {
+  document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
+  document.getElementById(id).classList.add('active');
+  document.querySelectorAll('.nav-links button').forEach(b => b.classList.remove('active'));
+  document.querySelectorAll('.nav-links button').forEach(b => {
+    if (b.getAttribute('onclick') === `show('${id}')`) b.classList.add('active');
+  });
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+// ─── Accordion ───
+function toggleAcc(header) {
+  const item = header.parentElement;
+  item.classList.toggle('open');
+}
+
+// ─── Quiz ───
+let answered = {};
+let score = 0;
+const total = 8;
+
+function answer(btn, qId, correct) {
+  if (answered[qId]) return;
+  answered[qId] = true;
+
+  btn.classList.add(correct ? 'correct' : 'wrong');
+  if (correct) score++;
+
+  // Show correct answer if wrong
+  if (!correct) {
+    const options = btn.parentElement.querySelectorAll('.quiz-option');
+    options.forEach(o => {
+      if (o.getAttribute('onclick').includes('true')) o.classList.add('correct');
+    });
+  }
+
+  // Disable all options
+  btn.parentElement.querySelectorAll('.quiz-option').forEach(o => {
+    o.style.pointerEvents = 'none';
+  });
+
+  // Show explanation
+  document.getElementById(qId + '-exp').classList.add('show');
+
+  // Check if all answered
+  if (Object.keys(answered).length === total) {
+    const scoreEl = document.getElementById('quiz-score');
+    scoreEl.style.display = 'block';
+    document.getElementById('score-num').textContent = score;
+    document.getElementById('score-bar').style.width = (score / total * 100) + '%';
+
+    const msgs = {
+      8: "Perfect score! You understand your architecture deeply.",
+      7: "Excellent! You've got a strong grasp on the fundamentals.",
+      6: "Great work! Review the explanations for the ones you missed.",
+      5: "Good start! Re-read the Security Deep-Dive section.",
+      4: "Getting there! Focus on the Core Concepts section first.",
+      3: "Keep learning! Start with Core Concepts and work through each project.",
+      2: "Don't worry! Read through each section carefully — it'll click.",
+      1: "Everyone starts somewhere! Go through the learning path in order.",
+      0: "Time to study! Start with Core Concepts on the Home page."
+    };
+    document.getElementById('score-msg').textContent = msgs[score] || '';
+  }
+}
+</script>
+
+</body>
+</html>
