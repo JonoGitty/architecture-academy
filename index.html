@@ -232,8 +232,8 @@
     <button onclick="show('starky')">Starky Portfolio</button>
     <button onclick="show('codex')">Codex Audit</button>
     <button onclick="show('elam')">Elam Playtest</button>
-    <button onclick="show('chatbot')">AI Chatbot</button>
-    <button onclick="show('orchestrator')">AI Orchestrator</button>
+
+    <button onclick="show('orchestrator')">AI Orchestrate Tool-Kit</button>
     <button onclick="show('security')">Security Deep-Dive</button>
     <button onclick="show('quiz')">Test Yourself</button>
   </div>
@@ -275,14 +275,9 @@
       <h3>Elam Playtest</h3>
       <p>Real-time multiplayer. WebSockets, room-based auth, HMAC-signed invites, rate limiting.</p>
     </div>
-    <div class="card" onclick="show('chatbot')">
-      <span class="tag tag-ts">TypeScript</span>
-      <h3>Next.js AI Chatbot</h3>
-      <p>Full-stack AI app. Next.js App Router, Auth.js, PostgreSQL, Vercel deployment.</p>
-    </div>
     <div class="card" onclick="show('orchestrator')">
       <span class="tag tag-py">Python</span>
-      <h3>AI Orchestrator</h3>
+      <h3>AI Orchestrate Tool-Kit</h3>
       <p>Desktop system controller. Plugin architecture, multi-UI, secure credential storage.</p>
     </div>
   </div>
@@ -323,7 +318,7 @@
   <div class="concept">
     <div class="label">In Your Projects</div>
     <p><strong>Basil Board Games:</strong> React (dining room) &rarr; Supabase Edge Functions (kitchen) &rarr; PostgreSQL (pantry)</p>
-    <p><strong>AI Chatbot:</strong> Next.js UI (dining room) &rarr; API Routes + Server Actions (kitchen) &rarr; Neon PostgreSQL (pantry)</p>
+    <p><strong>AI Orchestrate Tool-Kit:</strong> PyQt5 UI (dining room) &rarr; Orchestrator Core + Plugin Registry (kitchen) &rarr; System Keyring + Config (pantry)</p>
     <p style="margin:0"><strong>Starky Portfolio:</strong> Only a dining room! It's a static site with no backend. The browser does everything.</p>
   </div>
 
@@ -363,8 +358,8 @@
     <div class="acc-item">
       <div class="acc-header" onclick="toggleAcc(this)">Server-Side Rendering (SSR) vs Static</div>
       <div class="acc-body"><div class="acc-body-inner">
-        <p><strong>Static:</strong> HTML is built once at deploy time. Every visitor gets the same files. <em>Starky Portfolio, Basil Board Games.</em></p>
-        <p><strong>SSR:</strong> HTML is generated on each request. The server builds the page specifically for that visitor. <em>Next.js AI Chatbot.</em></p>
+        <p><strong>Static:</strong> HTML is built once at deploy time. Every visitor gets the same files. <em>Starky Portfolio OS, Basil Board Games.</em></p>
+        <p><strong>SSR:</strong> HTML is generated on each request. The server builds the page specifically for that visitor. Useful for dashboards, chat apps, or anything personalized per user.</p>
         <div class="concept">
           <div class="label">When to use which</div>
           <p><strong>Static</strong> = Content that doesn't change per-user (landing pages, portfolios, documentation).</p>
@@ -407,7 +402,7 @@ Managed by: <span class="hl3">pnpm workspaces</span> + <span class="hl3">Turbore
       <div class="acc-header" onclick="toggleAcc(this)">Plugin Architecture</div>
       <div class="acc-body"><div class="acc-body-inner">
         <p><strong>What it is:</strong> A core system that can be extended by "plugging in" new features without modifying the core code.</p>
-        <p><strong>Your example:</strong> <strong>AI Orchestrator</strong> has 9 built-in plugins (system control, UI automation, backup, email). Each plugin registers itself and the orchestrator calls them as needed.</p>
+        <p><strong>Your example:</strong> <strong>AI Orchestrate Tool-Kit</strong> has 9 built-in plugins (system control, UI automation, backup, email). Each plugin registers itself and the orchestrator calls them as needed.</p>
         <div class="concept">
           <div class="label">Why plugins matter</div>
           <p style="margin:0">They follow the <strong>Open/Closed Principle</strong>: the system is open for extension (add new plugins) but closed for modification (core code doesn't change). This prevents bugs when adding new features.</p>
@@ -419,10 +414,10 @@ Managed by: <span class="hl3">pnpm workspaces</span> + <span class="hl3">Turbore
   <h2>Deployment Models You Use</h2>
   <table>
     <tr><th>Model</th><th>What It Means</th><th>Your Projects</th></tr>
-    <tr><td><strong>Static Hosting</strong></td><td>Pre-built files served from a CDN. No server.</td><td>Basil Board Games, Starky Portfolio (GitHub Pages)</td></tr>
-    <tr><td><strong>Serverless</strong></td><td>Functions run on-demand. You don't manage servers.</td><td>Basil (Supabase Edge Functions), AI Chatbot (Vercel)</td></tr>
+    <tr><td><strong>Static Hosting</strong></td><td>Pre-built files served from a CDN. No server.</td><td>Basil Board Games, Starky Portfolio OS (GitHub Pages)</td></tr>
+    <tr><td><strong>Serverless</strong></td><td>Functions run on-demand. You don't manage servers.</td><td>Basil (Supabase Edge Functions)</td></tr>
     <tr><td><strong>Self-Hosted</strong></td><td>You run the server yourself on a machine.</td><td>Elam Playtest (Node.js + Cloudflare Tunnel)</td></tr>
-    <tr><td><strong>Desktop App</strong></td><td>Runs locally on the user's computer.</td><td>AI Orchestrator (Python + PyQt5)</td></tr>
+    <tr><td><strong>Desktop App</strong></td><td>Runs locally on the user's computer.</td><td>AI Orchestrate Tool-Kit (Python + PyQt5)</td></tr>
   </table>
 </div>
 
@@ -792,59 +787,10 @@ Verifying an invite:
   </div>
 </div>
 
-<!-- ══════════════════════════════════════════════ CHATBOT ══════════════════════════════════════════════ -->
-<div id="chatbot" class="section">
-  <h1>Next.js AI Chatbot</h1>
-  <p>A full-stack AI chat application showing a different architecture pattern from Basil.</p>
-
-  <h2>Architecture Comparison: Basil vs Chatbot</h2>
-  <table>
-    <tr><th>Aspect</th><th>Basil Board Games</th><th>AI Chatbot</th></tr>
-    <tr><td>Frontend</td><td>React SPA (client-side only)</td><td>Next.js (server + client components)</td></tr>
-    <tr><td>Backend</td><td>Supabase Edge Functions</td><td>Next.js API Routes + Server Actions</td></tr>
-    <tr><td>Database</td><td>Supabase PostgreSQL</td><td>Neon PostgreSQL + Drizzle ORM</td></tr>
-    <tr><td>Auth</td><td>Supabase Auth</td><td>Auth.js (NextAuth)</td></tr>
-    <tr><td>Deployment</td><td>GitHub Pages (static)</td><td>Vercel (serverless)</td></tr>
-    <tr><td>File Storage</td><td>None</td><td>Vercel Blob</td></tr>
-  </table>
-
-  <h3>Server Components vs Client Components</h3>
-  <div class="concept">
-    <div class="label">Key Concept</div>
-    <p>In Basil, ALL components run in the browser. In Next.js, components can run on the <strong>server</strong> (default) or the <strong>client</strong>.</p>
-    <p><strong>Server Components:</strong> Run on the server, can directly access the database, never send their code to the browser. Faster, smaller bundles.</p>
-    <p style="margin:0"><strong>Client Components:</strong> Run in the browser (marked with <code>"use client"</code>). Needed for interactivity (clicks, state, effects).</p>
-  </div>
-
-  <h3>Auth Middleware Pattern</h3>
-  <div class="diagram"><span class="hl">Every request hits middleware.ts FIRST</span>
-
-Request comes in
-  │
-  ├─ Has JWT token? ─── No ──→ Redirect to /api/auth/guest
-  │                              (creates anonymous account)
-  │
-  ├─ Is guest + protected route? ──→ Allow (guests can chat)
-  │
-  ├─ Is real user + /login page? ──→ Redirect to / (already logged in)
-  │
-  └─ Otherwise ──→ Continue to page
-
-<span class="hl2">This runs on EVERY request before any page loads.</span>
-<span class="hl2">It's the first line of defense.</span></div>
-
-  <h3>Database with an ORM</h3>
-  <div class="concept">
-    <div class="label">Drizzle ORM vs Raw SQL</div>
-    <p>In Basil, you talk to the database through Supabase's client library. In the chatbot, you use <strong>Drizzle ORM</strong>&mdash;a type-safe way to write database queries in TypeScript.</p>
-    <p>Instead of: <code>SELECT * FROM chats WHERE user_id = '...'</code></p>
-    <p style="margin:0">You write: <code>db.select().from(chats).where(eq(chats.userId, '...'))</code> &mdash; and TypeScript checks everything at compile time.</p>
-  </div>
-</div>
 
 <!-- ══════════════════════════════════════════════ ORCHESTRATOR ══════════════════════════════════════════════ -->
 <div id="orchestrator" class="section">
-  <h1>AI Orchestrator</h1>
+  <h1>AI Orchestrate Tool-Kit</h1>
   <p>A Python desktop application that controls your computer through AI. Different architecture from your web projects.</p>
 
   <h2>Architecture Pattern: Plugin System</h2>
@@ -919,10 +865,10 @@ Request comes in
   <table>
     <tr><th>Method</th><th>How It Works</th><th>Used In</th></tr>
     <tr><td><strong>Email + Password</strong></td><td>Classic. Password is hashed (never stored in plain text).</td><td>Basil Board Games</td></tr>
-    <tr><td><strong>JWT Tokens</strong></td><td>After login, server gives you a signed token. Include it with every request.</td><td>Basil, AI Chatbot</td></tr>
+    <tr><td><strong>JWT Tokens</strong></td><td>After login, server gives you a signed token. Include it with every request.</td><td>Basil Board Games</td></tr>
     <tr><td><strong>Session Tokens</strong></td><td>Server remembers your session. You get a cookie ID.</td><td>Elam Playtest</td></tr>
     <tr><td><strong>HMAC Signed Links</strong></td><td>A URL that's cryptographically signed. Can't be forged.</td><td>Elam Playtest (invites)</td></tr>
-    <tr><td><strong>API Keys</strong></td><td>A secret string that identifies an application (not a user).</td><td>AI Orchestrator, Chatbot</td></tr>
+    <tr><td><strong>API Keys</strong></td><td>A secret string that identifies an application (not a user).</td><td>AI Orchestrate Tool-Kit</td></tr>
   </table>
 
   <h2>Layer 2: Authorization</h2>
@@ -949,12 +895,6 @@ Request comes in
           <div class="label">Common Vibecoder Mistake</div>
           <p style="margin:0">Only hiding the admin button in the UI. A hacker can open browser devtools and call the API directly. You MUST check permissions on the server too. Basil does this correctly in the <code>admin-command</code> edge function.</p>
         </div>
-      </div></div>
-    </div>
-    <div class="acc-item">
-      <div class="acc-header" onclick="toggleAcc(this)">Middleware Guard (AI Chatbot)</div>
-      <div class="acc-body"><div class="acc-body-inner">
-        <p>Next.js middleware runs before any page loads. It checks your JWT and decides if you can access the requested page. This is a "gate" pattern&mdash;one central check point for all routes.</p>
       </div></div>
     </div>
     <div class="acc-item">
@@ -1004,7 +944,7 @@ Request comes in
   <h2>Layer 5: Data Protection</h2>
   <table>
     <tr><th>Concept</th><th>What It Means</th><th>Your Examples</th></tr>
-    <tr><td><strong>Password Hashing</strong></td><td>Passwords are run through a one-way function (bcrypt). Even if the database leaks, passwords can't be recovered.</td><td>Supabase Auth (Basil), Auth.js (Chatbot)</td></tr>
+    <tr><td><strong>Password Hashing</strong></td><td>Passwords are run through a one-way function (bcrypt). Even if the database leaks, passwords can't be recovered.</td><td>Supabase Auth (Basil), Hashed passcodes (Elam)</td></tr>
     <tr><td><strong>Hash Chains</strong></td><td>Each record includes a hash of the previous record. Tampering with any record breaks the chain.</td><td>Codex Audit, Starky Portfolio</td></tr>
     <tr><td><strong>Environment Variables</strong></td><td>Secrets stored outside code. Not committed to git.</td><td>All projects (.env files)</td></tr>
     <tr><td><strong>Service Role Keys</strong></td><td>A powerful key that bypasses RLS. NEVER put in browser code.</td><td>Basil (GitHub Actions only)</td></tr>
@@ -1025,11 +965,11 @@ Request comes in
   <h2>OWASP Top Threats &mdash; How Your Projects Handle Them</h2>
   <table>
     <tr><th>Threat</th><th>What It Is</th><th>Your Defense</th></tr>
-    <tr><td><strong>Broken Access Control</strong></td><td>Users accessing things they shouldn't</td><td>RLS (Basil), Middleware (Chatbot), Host-only ops (Elam)</td></tr>
-    <tr><td><strong>Injection</strong></td><td>Malicious SQL/code in user input</td><td>Supabase parameterized queries, Drizzle ORM, input validation</td></tr>
+    <tr><td><strong>Broken Access Control</strong></td><td>Users accessing things they shouldn't</td><td>RLS (Basil), Host-only ops (Elam), Plugin permissions (Orchestrate)</td></tr>
+    <tr><td><strong>Injection</strong></td><td>Malicious SQL/code in user input</td><td>Supabase parameterized queries, input validation, server-side checks</td></tr>
     <tr><td><strong>Insecure Design</strong></td><td>Architecture-level flaws</td><td>Server-authoritative game logic (Elam), server-side admin verification (Basil)</td></tr>
     <tr><td><strong>Security Misconfiguration</strong></td><td>Default passwords, exposed debug info</td><td>Helmet headers (Elam), env vars for secrets, CI/CD automation</td></tr>
-    <tr><td><strong>Identification Failures</strong></td><td>Weak auth, session hijacking</td><td>JWT tokens, email confirmation, HMAC-signed invites</td></tr>
+    <tr><td><strong>Identification Failures</strong></td><td>Weak auth, session hijacking</td><td>JWT tokens (Basil), email confirmation, HMAC-signed invites (Elam)</td></tr>
     <tr><td><strong>Software Supply Chain</strong></td><td>Vulnerable dependencies</td><td>Lock files (package-lock.json), CI testing</td></tr>
   </table>
 </div>
@@ -1135,9 +1075,57 @@ Request comes in
     </div>
   </div>
 
+  <div class="quiz" id="q9">
+    <h3>Question 9: Plugin Architecture</h3>
+    <p>AI Orchestrate Tool-Kit uses a plugin architecture. What principle does this follow, and why is it important?</p>
+    <button class="quiz-option" onclick="answer(this,'q9',false)">A) Single Responsibility &mdash; each plugin handles one HTTP request</button>
+    <button class="quiz-option" onclick="answer(this,'q9',true)">B) Open/Closed Principle &mdash; the system is open for extension (add new plugins) but closed for modification (core code doesn't change)</button>
+    <button class="quiz-option" onclick="answer(this,'q9',false)">C) DRY Principle &mdash; plugins prevent code duplication across projects</button>
+    <button class="quiz-option" onclick="answer(this,'q9',false)">D) Dependency Inversion &mdash; plugins depend on the database, not on each other</button>
+    <div class="quiz-explanation" id="q9-exp">
+      <strong>Correct: B.</strong> The Open/Closed Principle means you can add new capabilities (system control, backup, email, etc.) by writing a new plugin that registers itself with the orchestrator. The core orchestrator code never needs to change. This prevents bugs when adding new features because existing, tested code stays untouched.
+    </div>
+  </div>
+
+  <div class="quiz" id="q10">
+    <h3>Question 10: Credential Security</h3>
+    <p>AI Orchestrate Tool-Kit has a priority chain for API key lookup: Environment Variable &rarr; System Keyring &rarr; Config File &rarr; Local .key file. Why are environment variables the top priority?</p>
+    <button class="quiz-option" onclick="answer(this,'q10',false)">A) They are the fastest to read</button>
+    <button class="quiz-option" onclick="answer(this,'q10',false)">B) They are automatically encrypted by the operating system</button>
+    <button class="quiz-option" onclick="answer(this,'q10',true)">C) They exist only in memory for the duration of the session, never written to disk, so they can't be accidentally committed to git or leaked from files</button>
+    <button class="quiz-option" onclick="answer(this,'q10',false)">D) They can be shared securely between multiple applications</button>
+    <div class="quiz-explanation" id="q10-exp">
+      <strong>Correct: C.</strong> Environment variables live in process memory only. They vanish when the session ends, and they're never written to a file on disk. This means there's no risk of accidentally committing them to git, and they won't persist if someone gains access to the filesystem. The system keyring is the next best option because it encrypts at rest.
+    </div>
+  </div>
+
+  <div class="quiz" id="q11">
+    <h3>Question 11: Static Sites &amp; Security</h3>
+    <p>Starky Portfolio OS is a 100% static site deployed to GitHub Pages with no backend. How can it still have a tamper-evident audit trail?</p>
+    <button class="quiz-option" onclick="answer(this,'q11',false)">A) GitHub Pages provides a built-in audit log API</button>
+    <button class="quiz-option" onclick="answer(this,'q11',false)">B) The audit trail is stored in a hidden database on GitHub's servers</button>
+    <button class="quiz-option" onclick="answer(this,'q11',true)">C) Each event is hashed with SHA-256, and each hash includes the previous event's hash, forming a chain that runs entirely in the browser</button>
+    <button class="quiz-option" onclick="answer(this,'q11',false)">D) It uses service workers to intercept and log all network requests</button>
+    <div class="quiz-explanation" id="q11-exp">
+      <strong>Correct: C.</strong> The hash chain is computed client-side using the Web Crypto API (SHA-256). No server is needed. Each event's hash depends on the previous event's hash, so modifying or deleting any event breaks the chain. This is the same concept used in Codex Audit at a larger scale, and it's similar to how blockchains work.
+    </div>
+  </div>
+
+  <div class="quiz" id="q12">
+    <h3>Question 12: Defense in Depth</h3>
+    <p>Which of the following best describes the "defense in depth" security strategy used across your projects?</p>
+    <button class="quiz-option" onclick="answer(this,'q12',false)">A) Using the strongest single security measure available, like military-grade encryption</button>
+    <button class="quiz-option" onclick="answer(this,'q12',false)">B) Hiding your code so attackers can't see how your security works (security through obscurity)</button>
+    <button class="quiz-option" onclick="answer(this,'q12',true)">C) Multiple overlapping security layers so that if one fails, others still protect the system &mdash; like frontend validation + backend validation + database constraints</button>
+    <button class="quiz-option" onclick="answer(this,'q12',false)">D) Only allowing access from specific IP addresses</button>
+    <div class="quiz-explanation" id="q12-exp">
+      <strong>Correct: C.</strong> Defense in depth means no single point of failure. In Basil, nicknames are validated in the frontend (for UX), in the backend (for security), AND in the database trigger (as a final guarantee). In Elam, security comes from Helmet headers + HMAC invites + hashed passcodes + rate limiting + host-only operations. If any one layer is bypassed, the others still hold.
+    </div>
+  </div>
+
   <div id="quiz-score" style="display:none; text-align: center; margin-top: 2rem;">
     <h2>Your Score</h2>
-    <p style="font-size: 2rem; font-weight: 800;"><span id="score-num">0</span> / 8</p>
+    <p style="font-size: 2rem; font-weight: 800;"><span id="score-num">0</span> / 12</p>
     <div class="progress-bar"><div class="progress-fill" id="score-bar" style="width: 0%"></div></div>
     <p id="score-msg" style="font-size: 1.1rem; margin-top: 1rem;"></p>
   </div>
@@ -1166,7 +1154,7 @@ function toggleAcc(header) {
 // ─── Quiz ───
 let answered = {};
 let score = 0;
-const total = 8;
+const total = 12;
 
 function answer(btn, qId, correct) {
   if (answered[qId]) return;
@@ -1199,11 +1187,15 @@ function answer(btn, qId, correct) {
     document.getElementById('score-bar').style.width = (score / total * 100) + '%';
 
     const msgs = {
-      8: "Perfect score! You understand your architecture deeply.",
-      7: "Excellent! You've got a strong grasp on the fundamentals.",
-      6: "Great work! Review the explanations for the ones you missed.",
-      5: "Good start! Re-read the Security Deep-Dive section.",
-      4: "Getting there! Focus on the Core Concepts section first.",
+      12: "Perfect score! You understand your architecture deeply.",
+      11: "Outstanding! You've mastered nearly everything.",
+      10: "Excellent! You've got a strong grasp on the fundamentals.",
+      9: "Great work! Just a few gaps to fill.",
+      8: "Solid knowledge! Review the explanations for the ones you missed.",
+      7: "Good work! Re-read the sections for topics you missed.",
+      6: "Good start! Focus on the Security Deep-Dive section.",
+      5: "Getting there! Work through each project section carefully.",
+      4: "Keep at it! Focus on the Core Concepts section first.",
       3: "Keep learning! Start with Core Concepts and work through each project.",
       2: "Don't worry! Read through each section carefully — it'll click.",
       1: "Everyone starts somewhere! Go through the learning path in order.",
